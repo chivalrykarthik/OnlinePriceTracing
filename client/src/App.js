@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
@@ -13,6 +13,7 @@ const client = new ApolloClient({
   uri: "http://localhost:4000/"
 })
 function App() {
+  let [isRefetch,setRefetch] = useState(false);
   return (
     <ApolloProvider client={client} >
       <Container>
@@ -23,8 +24,8 @@ function App() {
         </Row>
         <Router>
           <Route exact path='/'>
-            <CreateTracker />
-            <ListTracker />
+            <CreateTracker isRefetch = {isRefetch} setRefetch = {setRefetch} />
+            <ListTracker  isRefetch = {isRefetch} setRefetch = {setRefetch} />
           </Route>
         </Router>
       </Container>

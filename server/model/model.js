@@ -4,6 +4,8 @@ let model = {};
 model.createTracker = function (req) {
     let curDate = new Date();
     let query = {
+        "productName": req.productName,
+        "productImage": req.productImage,
         "url": req.url,
         "startPrice": req.startPrice,
         "startDate": curDate,
@@ -35,12 +37,15 @@ model.updateTracker = function (queryObj) {
                 price: queryObj.todayPrice
             }]
         },
-        $set:{
+        $set: {
             "todayPrice": queryObj.todayPrice
         }
     });
 
 };
+model.deleteTracker = function(id){
+    return trackers.deleteOne({_id:id});
+}
 /*
 model.deleteQuestions = function (queryDto, cb) {
     questions.deleteOne({ "questionID": parseInt(queryDto.questionID) }, cb);

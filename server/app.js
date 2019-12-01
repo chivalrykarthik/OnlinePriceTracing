@@ -8,6 +8,8 @@ const typeDefs = gql`
     }
     type Track{
         _id:String
+        productName:String
+        productImage:String
         url:String        
         startPrice:Int
         startDate:String
@@ -20,6 +22,7 @@ const typeDefs = gql`
     }
     type Mutation{
         addTracker(url:String):[Track]
+        deleteTracker(id:String):[Track]
     }
 `;
 
@@ -34,8 +37,11 @@ const resolvers = {
     Mutation:{
         addTracker:async (parent,args)=>{
             let resp = await manageTracker.addTracker(args.url);
-            return [resp];
-            
+            return [resp];            
+        },
+        deleteTracker:async(parent,args)=>{
+            let resp = await manageTracker.deleteTracker(args.id);
+            return manageTracker.getTrackerList();
         }
     }
 };

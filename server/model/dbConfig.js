@@ -16,6 +16,8 @@ db.on("error", () => {
 
 
 const trackerSchema = new Schema({
+    "productName":{type:String,required:true},
+    "productImage":{type:String,required:true},
     "url": { type: String, required: true },
     "startPrice": { type: Number, required: true },
     "startDate": { type: Date, default: Date.now, required: true },
