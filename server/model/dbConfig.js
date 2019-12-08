@@ -32,4 +32,4 @@ const trackerSchema = new Schema({
 const trackers = mongoose.model("trackers", trackerSchema);
 
 
-module.exports = { trackers };
+module.exports = { trackers,db };

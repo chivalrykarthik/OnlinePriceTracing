@@ -30,7 +30,10 @@ model.getTrackerById = function getDashboard(id) {
 
 model.updateTracker = function (queryObj) {
     const curDate = new Date();
-    return trackers.update({ "_id": queryObj.id }, {
+    return trackers.updateOne({
+        "_id": queryObj.id,
+        "todayPrice": { $ne: queryObj.todayPrice }
+    }, {
         $push: {
             "priceList": [{
                 date: curDate,
@@ -43,8 +46,8 @@ model.updateTracker = function (queryObj) {
     });
 
 };
-model.deleteTracker = function(id){
-    return trackers.deleteOne({_id:id});
+model.deleteTracker = function (id) {
+    return trackers.deleteOne({ _id: id });
 }
 /*
 model.deleteQuestions = function (queryDto, cb) {

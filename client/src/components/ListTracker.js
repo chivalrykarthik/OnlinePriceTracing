@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Row, Col, Card, Image } from 'react-bootstrap';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-
+import Modal from './Modal';
 const GET_TRACKER_LIST = gql`
 {
     getTracklist{url
@@ -37,7 +37,7 @@ const CardCmp = (props) => {
                                 <div>Current Price:{props.todayPrice}</div>
                             </div>
                             <div className="float-right">
-                                <div>Link</div>
+                                <Modal product = {props}/>
                             </div>
                         </Col>
                     </Row>
@@ -48,7 +48,7 @@ const CardCmp = (props) => {
 }
 
 const TrackerCmp = (props) => {
-    let data = props.getTrackerList;    
+    let data = props.getTrackerList;
     return data.map((tracker) => {
         if (tracker)
             return <CardCmp {...tracker} key={tracker._id} />
@@ -58,13 +58,13 @@ const TrackerCmp = (props) => {
 const ListTracker = (props) => {
     let { loading, error, data, refetch } = useQuery(GET_TRACKER_LIST);
     let { isRefetch, setRefetch } = props;
-    useEffect(() => {        
+    useEffect(() => {
         if (isRefetch) {
             refetch();
         }
         setRefetch(false);
-    }, [isRefetch]);
-    
+    }, [isRefetch, refetch, setRefetch]);
+
     if (loading)
         return <div>Loading...</div>
     else if (error)
