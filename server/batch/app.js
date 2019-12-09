@@ -34,7 +34,7 @@ let handleResponse = (trackerList) => {
             logger.error('Got error while updating DB:' + JSON.stringify(err));
             return callback(err);
         }
-        console.log("resp:",JSON.stringify(resp));
+        
         if (resp && resp.nModified) {
             logger.info("Latest price is updated for this prodcut.");
         } else {
