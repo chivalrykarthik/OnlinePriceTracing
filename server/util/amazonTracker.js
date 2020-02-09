@@ -27,10 +27,11 @@ class AmazonTracker {
         let product = {};
         product.title = (this.document('#productTitle').text()).trim();
         product.image = this.document('.image.selected img').attr('data-old-hires');
-        product.price = this.document('#priceblock_ourprice').text();
-        if (!product.price) {
+        
+        product.price = this.document('#priceblock_dealprice').text() || this.document('#priceblock_ourprice').text();
+        /*if (!product.price) {
             product.price = this.document('#priceblock_dealprice').text();
-        }
+        }*/
         return product;
     }
     getFormattedDetails(details) {
