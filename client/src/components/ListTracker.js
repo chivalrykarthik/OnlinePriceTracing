@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { Row, Col, Card, Image } from 'react-bootstrap';
+import { Row, Col, Card, Image, Button } from 'react-bootstrap';
 import { gql } from 'apollo-boost';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import Modal from './Modal';
 const GET_TRACKER_LIST = gql`
 {
@@ -19,6 +19,40 @@ const GET_TRACKER_LIST = gql`
     }
   }
 `;
+
+const DELETE_TRACKER = gql`
+mutation DeleteTracker($id:String!){
+    deleteTracker(id:$id){        
+        productName
+    }
+}
+
+`
+
+const DeleteProductBtn = (props) => {
+    const { productId } = props;
+    let [deleteTracker] = useMutation(DELETE_TRACKER, {
+        update() {
+            props.setRefetch(true)
+        }
+    });
+    const deleteProduct = () => {
+        const isDelete = window.confirm("Are you sure want to delete the product ?");
+        if (isDelete) {
+            deleteTracker({ variables: { id: productId } });
+        }
+    }
+    return (
+        <>
+            <Button
+                variant="link"
+                onClick={deleteProduct}
+            >
+                Delete
+            </Button>
+        </>
+    );
+}
 
 
 const CardCmp = (props) => {
@@ -38,7 +72,8 @@ const CardCmp = (props) => {
                                 <div>Current Price:{props.todayPrice}</div>
                             </div>
                             <div className="float-right">
-                                <Modal product = {props}/>
+                                <DeleteProductBtn productId={props._id} setRefetch={props.setRefetch} />
+                                <Modal product={props} />
                             </div>
                         </Col>
                     </Row>
@@ -52,7 +87,7 @@ const TrackerCmp = (props) => {
     let data = props.getTrackerList;
     return data.map((tracker) => {
         if (tracker)
-            return <Col md = {6} ><CardCmp {...tracker} key={tracker._id} /></Col>
+            return <Col md={6} ><CardCmp {...tracker} key={tracker._id} setRefetch={props.setRefetch} /></Col>
         return null;
     });
 }
@@ -74,10 +109,10 @@ const ListTracker = (props) => {
         return (
             <>
                 <Row>
-                    
-                        <TrackerCmp getTrackerList={data.getTracklist} />
-                    
-                    
+
+                    <TrackerCmp getTrackerList={data.getTracklist} setRefetch={setRefetch} />
+
+
                 </Row>
 
             </>
