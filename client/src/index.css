@@ -1,0 +1,9 @@
+body {
+  font-family: "Roboto", "Times New Roman", Times, serif;
+}
+.heading {
+  font-weight: 500;
+}
+.subheading {
+  font-weight: 300;
+}

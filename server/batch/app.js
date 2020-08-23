@@ -34,9 +34,9 @@ let handleResponse = (trackerList) => {
             logger.error('Got error while updating DB:' + JSON.stringify(err));
             return callback(err);
         }
-        
+
         if (resp && resp.nModified) {
-            logger.info("Latest price is updated for this prodcut.");
+            logger.info(`Latest price is updated for this prodcut.  ${queryObj.todayPrice || "Out of stock"} `);
         } else {
             logger.info("No change in the price for this product.");
         }

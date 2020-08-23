@@ -26,6 +26,7 @@ const CardCmp = (props) => {
         <>
             <Card>
                 <Card.Body>
+                    {/*<span className="float-right pointer" aria-hidden="true">×</span>*/}
                     <Row>
                         <Col md={2}>
                             <Image src={props.productImage} fluid />
@@ -51,7 +52,7 @@ const TrackerCmp = (props) => {
     let data = props.getTrackerList;
     return data.map((tracker) => {
         if (tracker)
-            return <CardCmp {...tracker} key={tracker._id} />
+            return <Col md = {6} ><CardCmp {...tracker} key={tracker._id} /></Col>
         return null;
     });
 }
@@ -73,12 +74,10 @@ const ListTracker = (props) => {
         return (
             <>
                 <Row>
-                    <Col md={6}>
+                    
                         <TrackerCmp getTrackerList={data.getTracklist} />
-                    </Col>
-                    <Col md={6}>
-                        <TrackerCmp getTrackerList={[data.getTracklist[0]]} />
-                    </Col>
+                    
+                    
                 </Row>
 
             </>

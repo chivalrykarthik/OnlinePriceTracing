@@ -18,8 +18,11 @@ const useGetProductData = ({ product }) => {
     product.priceList.forEach(row => {
         let dtObj = new Date(parseInt(row.date));
         let dt = dtObj.getDate() + '-' + months[dtObj.getMonth()] + '-' + dtObj.getFullYear();
-        label.push(dt);
-        data.push(row.price);
+        if (row.price && row.price > 0) {
+            label.push(dt);
+            data.push(row.price);
+        }
+
     });
     return [label, data];
 }
@@ -60,17 +63,17 @@ const ModalFooter = props => {
 const ModalCmp = (props) => {
     return (
         <>
-        <Modal
-            show={props.show}
-            onHide={props.handleshow}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <ModalHeader product={props.product} />
-            <ModalBoday product={props.product} />
-            <ModalFooter product={props.product} />
-        </Modal>
+            <Modal
+                show={props.show}
+                onHide={props.handleshow}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <ModalHeader product={props.product} />
+                <ModalBoday product={props.product} />
+                <ModalFooter product={props.product} />
+            </Modal>
         </>
     );
 }
